@@ -17,6 +17,8 @@ const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount } =
     useContext(StoreContext);
 
+  const deliveryFee = 2;
+
   const navigate = useNavigate();
 
   return (
@@ -61,7 +63,7 @@ const Cart = () => {
                   <Typography variant="h6">{item.name}</Typography>
                 </Grid>
                 <Grid item size={2}>
-                  <Typography variant="h6">${item.price}</Typography>
+                  <Typography variant="h6">${item.price.toFixed(2)}</Typography>
                 </Grid>
                 <Grid item size={2}>
                   <Typography variant="h6">{cartItems[item._id]}</Typography>
@@ -100,7 +102,9 @@ const Cart = () => {
               color="#555"
             >
               <Typography variant="h6">Subtotal</Typography>
-              <Typography variant="h6">${getTotalCartAmount()}</Typography>
+              <Typography variant="h6">
+                ${getTotalCartAmount().toFixed(2)}
+              </Typography>
             </Stack>
             <Divider sx={{ marginY: "10px" }} />
             <Stack
@@ -110,21 +114,21 @@ const Cart = () => {
             >
               <Typography variant="h6">Delivery Fee</Typography>
               <Typography variant="h6">
-                ${getTotalCartAmount() === 0 ? 0 : 2}
+                ${getTotalCartAmount() === 0 ? 0 : deliveryFee.toFixed(2)}
               </Typography>
             </Stack>
             <Divider sx={{ marginY: "10px" }} />
             <Stack direction="row" justifyContent={"space-between"}>
               <Typography variant="h6">Total</Typography>
               <Typography variant="h6">
-                ${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
+                ${getTotalCartAmount() === 0 ? 0 : (getTotalCartAmount() + deliveryFee).toFixed(2)}
               </Typography>
             </Stack>
             <Button
               sx={{ width: "250px", marginTop: "30px" }}
               width="20px"
               variant="secondary"
-              // onClick={() => navigate("/order")}
+              onClick={() => navigate("/order")}
             >
               PROCEED TO CHECKOUT
             </Button>
