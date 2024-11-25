@@ -8,15 +8,16 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   IconButton,
   Box,
   InputBase,
   Stack,
   Badge,
+  Button,
 } from "@mui/material";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = () => {
   const { getTotalCartItems } = useContext(StoreContext);
 
   const Search = styled("div")(({ theme }) => ({
@@ -77,7 +78,7 @@ const Navbar = ({ setShowLogin }) => {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Stack flexDirection={"row"}>
+          <Stack flexDirection={"row"} alignItems="center" gap={2}>
             <IconButton
               edge="start"
               aria-label="cart"
@@ -92,13 +93,25 @@ const Navbar = ({ setShowLogin }) => {
                 </Badge>
               </Link>
             </IconButton>
-            <Button
-              sx={{ width: "150px" }}
-              variant="primary"
-              onClick={() => setShowLogin(true)}
-            >
-              Login
-            </Button>
+            <SignedIn>
+              <Box
+                sx={{
+                  color: "#fff",
+                  borderRadius: "4px",
+                  marginTop: "5px",
+                }}
+              >
+                <UserButton />
+              </Box>{" "}
+            </SignedIn>
+            <SignedOut>
+              <Button
+                variant="secondary"
+                sx={{ lineHeight: 1.5 }}
+              >
+                <Link to="/sign-in">Sign In</Link>
+              </Button>
+            </SignedOut>
           </Stack>
         </Toolbar>
       </AppBar>
